@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: aoc
+
+aoc:
+  solutions:
+    - inputType: Hysteria
+      file: /data/hysteria.txt
