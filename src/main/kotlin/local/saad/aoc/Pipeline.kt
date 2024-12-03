@@ -1,9 +1,7 @@
 package local.saad.aoc
 
 import local.saad.aoc.config.Config
-import local.saad.aoc.config.Solution
 import local.saad.aoc.exceptions.AocException
-import local.saad.aoc.models.Answer
 import local.saad.aoc.parser.Parser
 import local.saad.aoc.solver.Solver
 import org.slf4j.Logger
@@ -16,12 +14,12 @@ import org.springframework.stereotype.Component
 class Pipeline(val solvers: List<Solver>, val parsers: List<Parser>, val config: Config) : CommandLineRunner {
 
     companion object {
-        val log: Logger = LoggerFactory.getLogger(Pipeline::class.java);
+        val log: Logger = LoggerFactory.getLogger(Pipeline::class.java)
     }
 
 
     override fun run(vararg args: String?) {
-        config.solutions.forEach { sol ->
+        config.solutions.parallelStream().forEach { sol ->
             log.info("trying to solve solution of input type {} with path {}", sol.inputType, sol.file)
             val parser = parsers.first { parser: Parser -> parser.parserType == sol.inputType }
             val solver = solvers.first { it.solverType == sol.inputType }
